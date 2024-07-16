@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "kamran7777777/auth-backend"
+        DOCKER_IMAGE = "kamran7777777/yeni-proje-backend"
     }
 
     stages {
