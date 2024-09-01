@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yeni-proje-backend
+  labels:
+    app: yeni-proje-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: yeni-proje-backend
+  template:
+    metadata:
+      labels:
+        app: yeni-proje-backend
+    spec:
+      containers:
+      - name: yeni-proje-backend
+        image: kamran7777777/yeni-proje-backend:tagname
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "5000" # This can be kept in ConfigMap if preferred
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: MONGO_URI
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: JWT_SECRET
+        - name: EMAIL_USER
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: EMAIL_USER
+        - name: EMAIL_PASS
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: EMAIL_PASS
+        - name: CLIENT_URL
+          value: "http://localhost:3000" # This can be kept in ConfigMap if preferred
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_REGION
+          value: "us-east-1" # This can be kept in ConfigMap if preferred
+        - name: S3_BUCKET_NAME
+          value: "my-unique-bucket-9898777" # This can be kept in ConfigMap if preferred
+        - name: PAYPAL_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: PAYPAL_CLIENT_ID
+        - name: PAYPAL_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: yeni-proje-backend-secrets
+              key: PAYPAL_CLIENT_SECRET

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: yeni-proje-backend-service
+  labels:
+    app: yeni-proje-backend
+spec:
+  selector:
+    app: yeni-proje-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer  # You can change this to ClusterIP or NodePort if needed
+
