@@ -16,12 +16,30 @@ spec:
     spec:
       containers:
       - name: yeni-proje-backend
-        image: kamran7777777/yeni-proje-backend:tagname
+        image: kamran7777777/yeni-proje-backend:latest # Ensure the correct image tag
         ports:
-        - containerPort: 80
+        - containerPort: 5000 # Match the port the app is actually listening on
         env:
         - name: PORT
-          value: "5000" # This can be kept in ConfigMap if preferred
+          valueFrom:
+            configMapKeyRef:
+              name: yeni-proje-backend-config
+              key: PORT
+        - name: CLIENT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: yeni-proje-backend-config
+              key: CLIENT_URL
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: yeni-proje-backend-config
+              key: AWS_REGION
+        - name: S3_BUCKET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: yeni-proje-backend-config
+              key: S3_BUCKET_NAME
         - name: MONGO_URI
           valueFrom:
             secretKeyRef:
@@ -42,8 +60,6 @@ spec:
             secretKeyRef:
               name: yeni-proje-backend-secrets
               key: EMAIL_PASS
-        - name: CLIENT_URL
-          value: "http://localhost:3000" # This can be kept in ConfigMap if preferred
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
@@ -54,10 +70,6 @@ spec:
             secretKeyRef:
               name: yeni-proje-backend-secrets
               key: AWS_SECRET_ACCESS_KEY
-        - name: AWS_REGION
-          value: "us-east-1" # This can be kept in ConfigMap if preferred
-        - name: S3_BUCKET_NAME
-          value: "my-unique-bucket-9898777" # This can be kept in ConfigMap if preferred
         - name: PAYPAL_CLIENT_ID
           valueFrom:
             secretKeyRef:
